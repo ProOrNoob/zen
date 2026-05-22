@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>zen.ng — a quiet place to breathe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #f3efe7;
+    --bg-2: #ebe5d8;
+    --paper: #f8f5ee;
+    --ink: #1f2421;
+    --ink-soft: #4a5048;
+    --ink-mute: #7a7f76;
+    --sage: #6b7d5e;
+    --sage-deep: #4a5a3f;
+    --moss: #8a9b7a;
+    --clay: #b08968;
+    --line: rgba(31, 36, 33, 0.12);
+    --line-strong: rgba(31, 36, 33, 0.22);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Outfit", system-ui, sans-serif;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.5;
+  }
+
+  .serif { font-family: "Cormorant Garamond", "Times New Roman", serif; }
+  .mono  { font-family: "JetBrains Mono", monospace; }
+
+  /* --- domain-for-sale banner --- */
+  .sale-banner {
+    background: var(--ink);
+    color: var(--bg);
+    padding: 10px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    flex-wrap: wrap;
+  }
+  .sale-banner .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: #d4a574;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+  .sale-banner strong { font-weight: 500; }
+  .sale-banner a.cta {
+    color: var(--bg);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255,255,255,0.4);
+    padding-bottom: 1px;
+    transition: border-color 0.2s;
+  }
+  .sale-banner a.cta:hover { border-color: var(--bg); }
+
+  /* --- nav --- */
+  nav.top {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 28px 40px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  nav.top .brand {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 28px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  nav.top .brand .dot-sep {
+    color: var(--clay);
+    font-style: italic;
+  }
+  nav.top ul {
+    list-style: none;
+    display: flex;
+    gap: 36px;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  nav.top ul a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  nav.top ul a:hover { color: var(--sage-deep); }
+
+  /* --- layout --- */
+  main {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 0 40px 120px;
+  }
+
+  section { margin-top: 120px; }
+
+  /* --- hero --- */
+  .hero {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 80px;
+    margin-top: 60px;
+    align-items: center;
+  }
+  .hero h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 300;
+    font-size: clamp(56px, 7vw, 104px);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--sage-deep);
+    font-weight: 400;
+  }
+  .hero .kicker {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 28px;
+  }
+  .hero .kicker::before {
+    content: "";
+    display: inline-block;
+    width: 28px; height: 1px;
+    background: var(--ink-mute);
+    vertical-align: middle;
+    margin-right: 12px;
+    transform: translateY(-2px);
+  }
+  .hero p.lead {
+    margin-top: 32px;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 480px;
+  }
+  .hero .actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 26px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.25s;
+    font-family: inherit;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .btn-primary:hover { background: var(--sage-deep); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--line-strong);
+  }
+  .btn-ghost:hover { background: rgba(31,36,33,0.04); }
+
+  /* breathing visual */
+  .breath-wrap {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .breath-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+  }
+  .breath-ring.r1 { inset: 0; }
+  .breath-ring.r2 { inset: 8%; }
+  .breath-ring.r3 { inset: 18%; }
+  .breath-orb {
+    width: 56%;
+    height: 56%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 32%,
+      #c8d2b7 0%,
+      #8fa37a 40%,
+      #5e7150 100%);
+    box-shadow:
+      inset 0 0 60px rgba(255,255,255,0.25),
+      0 30px 80px -20px rgba(74, 90, 63, 0.4);
+    animation: breathe 8s ease-in-out infinite;
+    position: relative;
+  }
+  .breath-orb::after {
+    content: "";
+    position: absolute;
+    inset: 12%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.35), transparent 55%);
+  }
+  @keyframes breathe {
+    0%, 100% { transform: scale(0.85); }
+    50%      { transform: scale(1.08); }
+  }
+  .breath-label {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    white-space: nowrap;
+  }
+
+  /* --- section header --- */
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+  }
+  .sec-head h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-weight: 400;
+    font-size: 44px;
+    letter-spacing: -0.01em;
+  }
+  .sec-head h2 em { font-style: italic; color: var(--sage-deep); }
+  .sec-head .index {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* --- practice grid --- */
+  .practice-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 32px;
+  }
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* breathing exercise card */
+  .breath-card {
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+  }
+  .breath-card .card-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .breath-card .card-meta .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--sage-deep);
+    background: rgba(107, 125, 94, 0.12);
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .breath-card h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .breath-card .desc {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 28px;
+  }
+  .breath-stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    min-height: 280px;
+  }
+  .b-orb {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 38% 32%,
+      #c8d2b7 0%,
+      #8fa37a 40%,
+      #5e7150 100%);
+    box-shadow:
+      inset 0 0 50px rgba(255,255,255,0.25),
+      0 20px 60px -15px rgba(74, 90, 63, 0.35);
+    transition: transform 4s cubic-bezier(0.4, 0, 0.6, 1);
+    transform: scale(0.7);
+    position: relative;
+  }
+  .b-orb.inhale { transform: scale(1.15); }
+  .b-orb.hold   { transform: scale(1.15); }
+  .b-orb.exhale { transform: scale(0.7); }
+  .b-orb::after {
+    content: "";
+    position: absolute;
+    inset: 14%;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, rgba(255,255,255,0.3), transparent 55%);
+  }
+  .b-instruction {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    text-align: center;
+    white-space: nowrap;
+  }
+  .b-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+  .b-pattern {
+    display: flex;
+    gap: 18px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  .b-pattern span strong {
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 13px;
+    margin-right: 4px;
+  }
+  .b-toggle {
+    background: var(--ink);
+    color: var(--bg);
+    border: none;
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .b-toggle:hover { background: var(--sage-deep); }
+
+  /* timer card */
+  .timer-card {
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+  }
+  .timer-card h3 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 8px;
+  }
+  .timer-card .desc {
+    color: var(--ink-soft);
+    font-size: 14px;
+    margin-bottom: 32px;
+  }
+  .timer-display {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 84px;
+    font-weight: 300;
+    text-align: center;
+    letter-spacing: -0.02em;
+    line-height: 1;
+    color: var(--ink);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-variant-numeric: tabular-nums;
+  }
+  .timer-display.running { color: var(--sage-deep); }
+  .duration-pills {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  .pill {
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pill:hover { border-color: var(--ink); color: var(--ink); }
+  .pill.active {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .timer-controls {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+  }
+  .timer-btn {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg);
+    font-family: inherit;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .timer-btn.primary {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .timer-btn:hover { transform: translateY(-1px); }
+  .timer-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+  .session-count {
+    text-align: center;
+    margin-top: 18px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+
+  /* --- quote section --- */
+  .quote-block {
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 24px;
+    padding: 80px 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .quote-block::before {
+    content: "";
+    position: absolute;
+    top: -100px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(143, 163, 122, 0.25), transparent 60%);
+    pointer-events: none;
+  }
+  .quote-block .q-mark {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 120px;
+    line-height: 0.7;
+    color: var(--moss);
+    opacity: 0.5;
+    margin-bottom: 8px;
+  }
+  .quote-text {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(28px, 3.4vw, 44px);
+    font-weight: 300;
+    font-style: italic;
+    line-height: 1.25;
+    max-width: 820px;
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+    min-height: 165px;
+  }
+  .quote-attr {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(243, 239, 231, 0.55);
+  }
+  .quote-attr strong { color: var(--bg); font-weight: 500; }
+  .quote-nav {
+    position: absolute;
+    bottom: 36px;
+    right: 60px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .qn-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(243,239,231,0.25);
+    background: transparent;
+    color: var(--bg);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: serif;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .qn-btn:hover { background: rgba(243,239,231,0.1); border-color: var(--bg); }
+  .qn-counter {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    color: rgba(243,239,231,0.55);
+    margin: 0 8px;
+    letter-spacing: 0.1em;
+  }
+
+  /* --- practices listing --- */
+  .practices-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    overflow: hidden;
+  }
+  .practice-item {
+    background: var(--bg);
+    padding: 36px 32px;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .practice-item:hover { background: var(--paper); }
+  .practice-item .num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--ink-mute);
+    margin-bottom: 24px;
+  }
+  .practice-item h4 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .practice-item p {
+    font-size: 13px;
+    color: var(--ink-soft);
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .practice-item .meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* --- for sale section (the main one) --- */
+  .for-sale {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    padding: 64px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .for-sale::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--clay), transparent);
+  }
+  .for-sale .label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--clay);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .for-sale .label::before {
+    content: "";
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--clay);
+  }
+  .for-sale h2 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 22px;
+  }
+  .for-sale h2 em { font-style: italic; color: var(--sage-deep); }
+  .for-sale p {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    max-width: 480px;
+  }
+  .domain-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+    margin-top: 32px;
+  }
+  .stat {
+    background: var(--bg);
+    padding: 18px 22px;
+  }
+  .stat .k {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 6px;
+  }
+  .stat .v {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    color: var(--ink);
+  }
+
+  .marketplaces {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .mp-card {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.25s;
+    position: relative;
+  }
+  .mp-card:hover {
+    border-color: var(--ink);
+    transform: translateX(4px);
+  }
+  .mp-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .mp-logo {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+  .mp-logo.sedo     { background: #003a70; }
+  .mp-logo.afternic { background: #1a8a4a; }
+  .mp-logo.dynadot  { background: #d97706; }
+  .mp-info .mp-name {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+  .mp-info .mp-meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+  }
+  .mp-arrow {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 24px;
+    color: var(--ink-mute);
+    transition: all 0.25s;
+  }
+  .mp-card:hover .mp-arrow {
+    transform: translateX(4px);
+    color: var(--ink);
+  }
+  .mp-direct {
+    margin-top: 8px;
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .mp-direct .mp-info .mp-name,
+  .mp-direct .mp-arrow { color: var(--bg); }
+  .mp-direct .mp-info .mp-meta { color: rgba(243,239,231,0.6); }
+  .mp-direct .mp-logo {
+    background: rgba(243,239,231,0.15);
+    color: var(--bg);
+  }
+  .mp-direct:hover { background: var(--sage-deep); border-color: var(--sage-deep); }
+
+  /* --- footer --- */
+  footer {
+    border-top: 1px solid var(--line);
+    margin-top: 120px;
+    padding: 48px 40px;
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+  }
+  footer .f-brand {
+    font-family: "Cormorant Garamond", serif;
+    font-size: 22px;
+    text-transform: none;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  footer .f-brand em { font-style: italic; color: var(--clay); }
+  footer .f-links { display: flex; gap: 24px; }
+  footer .f-links a { color: inherit; text-decoration: none; }
+  footer .f-links a:hover { color: var(--ink); }
+
+  /* --- responsive --- */
+  @media (max-width: 960px) {
+    .hero, .practice-grid, .for-sale, .practices-list {
+      grid-template-columns: 1fr;
+    }
+    .for-sale { padding: 40px; }
+    .quote-block { padding: 48px 32px; }
+    .quote-nav { position: static; margin-top: 24px; }
+    main { padding: 0 24px 80px; }
+    nav.top { padding: 24px; }
+    nav.top ul { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top sale banner -->
+<div class="sale-banner" role="banner" aria-label="Domain for sale">
+  <span class="dot" aria-hidden="true"></span>
+  <span><strong>zen.ng</strong> &nbsp;·&nbsp; this domain is available for acquisition</span>
+  <a href="#acquire" class="cta">view marketplaces ↓</a>
+</div>
+
+<nav class="top">
+  <div class="brand">zen<span class="dot-sep">.</span>ng</div>
+  <ul>
+    <li><a href="#practice">Practice</a></li>
+    <li><a href="#wisdom">Wisdom</a></li>
+    <li><a href="#library">Library</a></li>
+    <li><a href="#acquire">Acquire</a></li>
+  </ul>
+</nav>
+
+<main>
+
+  <!-- HERO -->
+  <section class="hero" style="margin-top:60px;">
+    <div>
+      <div class="kicker">A quiet corner of the internet · est. 2026</div>
+      <h1>Sit.<br/>Breathe.<br/><em>Return.</em></h1>
+      <p class="lead">zen.ng is a small, deliberate practice space — three breaths, a timer, a thought worth holding. No accounts. No notifications. Just the room you came here for.</p>
+      <div class="actions">
+        <a href="#practice" class="btn btn-primary">Begin a session →</a>
+        <a href="#acquire" class="btn btn-ghost">Own this domain</a>
+      </div>
+    </div>
+    <div class="breath-wrap" aria-hidden="true">
+      <div class="breath-ring r1"></div>
+      <div class="breath-ring r2"></div>
+      <div class="breath-ring r3"></div>
+      <div class="breath-orb"></div>
+      <div class="breath-label">inhale · 4   ·   hold · 7   ·   exhale · 8</div>
+    </div>
+  </section>
+
+  <!-- PRACTICE -->
+  <section id="practice">
+    <div class="sec-head">
+      <h2>The <em>practice</em>.</h2>
+      <span class="index">01 / Daily ritual</span>
+    </div>
+
+    <div class="practice-grid">
+      <!-- Breathing exercise -->
+      <div class="card breath-card">
+        <div class="card-meta">
+          <span class="tag">Guided · 4-7-8</span>
+          <span class="mono" style="font-size:11px; color: var(--ink-mute); letter-spacing:0.1em;">Cycle <span id="cycle-count">0</span></span>
+        </div>
+        <h3>Box-breathing, slowed.</h3>
+        <p class="desc">Inhale for four. Hold for seven. Exhale for eight. The orb keeps time so your mind doesn't have to.</p>
+
+        <div class="breath-stage">
+          <div class="b-orb" id="b-orb"></div>
+          <div class="b-instruction" id="b-instruction">press start when ready</div>
+        </div>
+
+        <div class="b-controls">
+          <div class="b-pattern">
+            <span><strong>4</strong>in</span>
+            <span><strong>7</strong>hold</span>
+            <span><strong>8</strong>out</span>
+          </div>
+          <button class="b-toggle" id="b-toggle">Start</button>
+        </div>
+      </div>
+
+      <!-- Timer -->
+      <div class="card timer-card">
+        <h3>Silent timer.</h3>
+        <p class="desc">A bell at the start. A bell at the end. Nothing in between.</p>
+
+        <div class="timer-display" id="timer-display">05:00</div>
+
+        <div class="duration-pills" id="duration-pills">
+          <button class="pill" data-mins="3">3 min</button>
+          <button class="pill active" data-mins="5">5 min</button>
+          <button class="pill" data-mins="10">10 min</button>
+          <button class="pill" data-mins="20">20 min</button>
+        </div>
+
+        <div class="timer-controls">
+          <button class="timer-btn primary" id="t-start">Begin</button>
+          <button class="timer-btn" id="t-reset" disabled>Reset</button>
+        </div>
+
+        <div class="session-count">Sessions today · <span id="session-count">0</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- QUOTE / WISDOM -->
+  <section id="wisdom">
+    <div class="sec-head">
+      <h2>A thought to <em>carry</em>.</h2>
+      <span class="index">02 / Daily reading</span>
+    </div>
+
+    <div class="quote-block">
+      <div class="q-mark">"</div>
+      <div class="quote-text" id="quote-text">The quieter you become, the more you are able to hear.</div>
+      <div class="quote-attr">— <strong id="quote-author">Ram Dass</strong> · attributed</div>
+      <div class="quote-nav">
+        <button class="qn-btn" id="q-prev" aria-label="Previous quote">‹</button>
+        <span class="qn-counter"><span id="q-i">1</span> / <span id="q-n">6</span></span>
+        <button class="qn-btn" id="q-next" aria-label="Next quote">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRACTICES LIBRARY -->
+  <section id="library">
+    <div class="sec-head">
+      <h2>Other <em>practices</em>.</h2>
+      <span class="index">03 / Library</span>
+    </div>
+
+    <div class="practices-list">
+      <div class="practice-item">
+        <div class="num">01</div>
+        <h4>Body scan</h4>
+        <p>Move your attention slowly from crown to feet. Notice without naming. Stay with what is heavy.</p>
+        <div class="meta"><span>15 min</span><span>Beginner</span></div>
+      </div>
+      <div class="practice-item">
+        <div class="num">02</div>
+        <h4>Walking, slowly</h4>
+        <p>Twenty paces, indoors or out. Each foot meets the ground as if greeting it for the first time.</p>
+        <div class="meta"><span>10 min</span><span>Any</span></div>
+      </div>
+      <div class="practice-item">
+        <div class="num">03</div>
+        <h4>One single breath</h4>
+        <p>The smallest practice. One conscious breath, taken anywhere. The doorway is always open.</p>
+        <div class="meta"><span>30 sec</span><span>Anytime</span></div>
+      </div>
+      <div class="practice-item">
+        <div class="num">04</div>
+        <h4>Loving-kindness</h4>
+        <p>May you be safe. May you be well. May you live with ease. Offer it inward first, then outward.</p>
+        <div class="meta"><span>12 min</span><span>Intermediate</span></div>
+      </div>
+      <div class="practice-item">
+        <div class="num">05</div>
+        <h4>Sound bath</h4>
+        <p>Listen, without sorting. Traffic, birds, the hum of a room. Each sound a small bell of return.</p>
+        <div class="meta"><span>8 min</span><span>Beginner</span></div>
+      </div>
+      <div class="practice-item">
+        <div class="num">06</div>
+        <h4>Tea, attended to</h4>
+        <p>Boil. Pour. Wait. Sip. The ceremony is not separate from the cup. The cup is not separate from you.</p>
+        <div class="meta"><span>5 min</span><span>Any</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOR SALE -->
+  <section id="acquire">
+    <div class="for-sale">
+      <div>
+        <div class="label">Domain for sale · zen.ng</div>
+        <h2>This name is <em>available</em>.</h2>
+        <p>A short, three-letter <strong>.ng</strong> domain with a globally resonant meaning. Suited for mindfulness apps, meditation studios, wellness brands, Nigerian-market launches, or anyone building a calm corner of the web. Offers welcomed via the marketplaces below — each handles escrow and secure transfer.</p>
+
+        <div class="domain-stats">
+          <div class="stat"><div class="k">Length</div><div class="v">3 characters</div></div>
+          <div class="stat"><div class="k">Extension</div><div class="v">.ng — Nigeria</div></div>
+          <div class="stat"><div class="k">Type</div><div class="v">Premium · brandable</div></div>
+          <div class="stat"><div class="k">Transfer</div><div class="v">Escrow · 24–72h</div></div>
+        </div>
+      </div>
+
+      <div class="marketplaces">
+        <a class="mp-card" href="https://sedo.com/search/?keyword=zen.ng" target="_blank" rel="noopener noreferrer">
+          <div class="mp-left">
+            <div class="mp-logo sedo">Se</div>
+            <div class="mp-info">
+              <div class="mp-name">Sedo</div>
+              <div class="mp-meta">SECURE · ESCROW · EST. 2001</div>
+            </div>
+          </div>
+          <span class="mp-arrow">→</span>
+        </a>
+
+        <a class="mp-card" href="https://www.afternic.com/domain/zen.ng" target="_blank" rel="noopener noreferrer">
+          <div class="mp-left">
+            <div class="mp-logo afternic">Af</div>
+            <div class="mp-info">
+              <div class="mp-name">Afternic</div>
+              <div class="mp-meta">GODADDY MARKETPLACE</div>
+            </div>
+          </div>
+          <span class="mp-arrow">→</span>
+        </a>
+
+        <a class="mp-card" href="https://www.dynadot.com/market/search?q=zen.ng" target="_blank" rel="noopener noreferrer">
+          <div class="mp-left">
+            <div class="mp-logo dynadot">Dy</div>
+            <div class="mp-info">
+              <div class="mp-name">Dynadot</div>
+              <div class="mp-meta">REGISTRAR · MARKETPLACE</div>
+            </div>
+          </div>
+          <span class="mp-arrow">→</span>
+        </a>
+
+        <a class="mp-card mp-direct" href="/cdn-cgi/l/email-protection#76191010130405360c1318581811490503141c1315024b371507031f051f021f1918534446131807031f040f5345375344460c131858181150171b064d1419120f4b3e131a1a195344355346375346373f534441125344461a1f1d135344460219534446131807031f04135344461714190302534446171507031f041f18115344460c1318581811585346375346373b0f53444619101013045345375344465346373f18021318121312534446030513534537534446534637534637221e17181d5344460f190358">
+          <div class="mp-left">
+            <div class="mp-logo">@</div>
+            <div class="mp-info">
+              <div class="mp-name">Direct enquiry</div>
+              <div class="mp-meta"><span class="__cf_email__" data-cfemail="b2fdf4f4f7e0e1f2e8f7fc9cfcf5">[email&#160;protected]</span></div>
+            </div>
+          </div>
+          <span class="mp-arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="f-brand">zen<em>.</em>ng</div>
+  <div class="f-links">
+    <a href="#practice">Practice</a>
+    <a href="#wisdom">Wisdom</a>
+    <a href="#acquire">Acquire</a>
+  </div>
+  <div>© 2026 · A quiet domain</div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  // -------- Breathing exercise --------
+  const orb = document.getElementById('b-orb');
+  const instr = document.getElementById('b-instruction');
+  const toggle = document.getElementById('b-toggle');
+  const cycleCount = document.getElementById('cycle-count');
+
+  // 4-7-8 in seconds, scaled (we use shorter for demo feel but real cycle)
+  const phases = [
+    { name: 'inhale', label: 'breathe in · slowly',  ms: 4000, cls: 'inhale' },
+    { name: 'hold',   label: 'hold · be still',      ms: 7000, cls: 'hold'   },
+    { name: 'exhale', label: 'release · let go',     ms: 8000, cls: 'exhale' },
+  ];
+
+  let bRunning = false;
+  let bTimer = null;
+  let bPhaseIdx = 0;
+  let bCycles = 0;
+
+  function setOrb(cls){
+    orb.classList.remove('inhale','hold','exhale');
+    if (cls) orb.classList.add(cls);
+  }
+
+  function nextPhase(){
+    if (!bRunning) return;
+    const p = phases[bPhaseIdx];
+    setOrb(p.cls);
+    // adjust transition duration to match phase
+    orb.style.transition = `transform ${p.ms}ms cubic-bezier(0.4, 0, 0.6, 1)`;
+    instr.textContent = p.label;
+    bTimer = setTimeout(() => {
+      bPhaseIdx = (bPhaseIdx + 1) % phases.length;
+      if (bPhaseIdx === 0) {
+        bCycles++;
+        cycleCount.textContent = bCycles;
+      }
+      nextPhase();
+    }, p.ms);
+  }
+
+  toggle.addEventListener('click', () => {
+    bRunning = !bRunning;
+    if (bRunning) {
+      toggle.textContent = 'Pause';
+      bPhaseIdx = 0;
+      nextPhase();
+    } else {
+      toggle.textContent = 'Start';
+      clearTimeout(bTimer);
+      setOrb(null);
+      orb.style.transition = 'transform 1.5s ease';
+      instr.textContent = 'paused · resume when ready';
+    }
+  });
+
+  // -------- Meditation timer --------
+  const display = document.getElementById('timer-display');
+  const pills = document.querySelectorAll('.pill');
+  const startBtn = document.getElementById('t-start');
+  const resetBtn = document.getElementById('t-reset');
+  const sessionCount = document.getElementById('session-count');
+
+  let durationMin = 5;
+  let remaining = durationMin * 60;
+  let tRunning = false;
+  let tInterval = null;
+  let sessions = parseInt(localStorage.getItem('zen_sessions_' + new Date().toDateString()) || '0', 10);
+  sessionCount.textContent = sessions;
+
+  function format(s){
+    const m = Math.floor(s/60).toString().padStart(2,'0');
+    const ss = (s%60).toString().padStart(2,'0');
+    return `${m}:${ss}`;
+  }
+  function render(){ display.textContent = format(remaining); }
+  render();
+
+  pills.forEach(p => p.addEventListener('click', () => {
+    if (tRunning) return;
+    pills.forEach(x => x.classList.remove('active'));
+    p.classList.add('active');
+    durationMin = parseInt(p.dataset.mins, 10);
+    remaining = durationMin * 60;
+    render();
+  }));
+
+  function chime(freq = 432, dur = 1.2){
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value = freq;
+      o.type = 'sine';
+      g.gain.setValueAtTime(0.0001, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.18, ctx.currentTime + 0.04);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+      o.start();
+      o.stop(ctx.currentTime + dur + 0.05);
+    } catch(e){}
+  }
+
+  startBtn.addEventListener('click', () => {
+    if (!tRunning) {
+      if (remaining <= 0) remaining = durationMin * 60;
+      tRunning = true;
+      startBtn.textContent = 'Pause';
+      resetBtn.disabled = false;
+      display.classList.add('running');
+      chime(432);
+      tInterval = setInterval(() => {
+        remaining--;
+        render();
+        if (remaining <= 0) {
+          clearInterval(tInterval);
+          tRunning = false;
+          startBtn.textContent = 'Begin';
+          display.classList.remove('running');
+          chime(528, 1.6);
+          setTimeout(() => chime(396, 1.6), 350);
+          sessions++;
+          sessionCount.textContent = sessions;
+          localStorage.setItem('zen_sessions_' + new Date().toDateString(), sessions);
+        }
+      }, 1000);
+    } else {
+      tRunning = false;
+      clearInterval(tInterval);
+      startBtn.textContent = 'Resume';
+      display.classList.remove('running');
+    }
+  });
+
+  resetBtn.addEventListener('click', () => {
+    tRunning = false;
+    clearInterval(tInterval);
+    remaining = durationMin * 60;
+    startBtn.textContent = 'Begin';
+    resetBtn.disabled = true;
+    display.classList.remove('running');
+    render();
+  });
+
+  // -------- Quote rotator --------
+  const quotes = [
+    { t: 'The quieter you become, the more you are able to hear.', a: 'Ram Dass' },
+    { t: 'You cannot stop the waves, but you can learn to surf.', a: 'Jon Kabat-Zinn' },
+    { t: 'Wherever you are, be there totally.', a: 'Eckhart Tolle' },
+    { t: 'Each morning we are born again. What we do today is what matters most.', a: 'Buddha · attributed' },
+    { t: 'Silence is sometimes the best answer.', a: 'The Dalai Lama' },
+    { t: 'In the midst of movement and chaos, keep stillness inside of you.', a: 'Deepak Chopra' },
+  ];
+  const qText = document.getElementById('quote-text');
+  const qAuthor = document.getElementById('quote-author');
+  const qI = document.getElementById('q-i');
+  const qN = document.getElementById('q-n');
+  qN.textContent = quotes.length;
+  let qIdx = 0;
+
+  function showQuote(idx, dir = 1){
+    qText.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+    qText.style.opacity = '0';
+    qText.style.transform = `translateY(${dir * 8}px)`;
+    setTimeout(() => {
+      qText.textContent = quotes[idx].t;
+      qAuthor.textContent = quotes[idx].a;
+      qI.textContent = idx + 1;
+      qText.style.transform = `translateY(${-dir * 8}px)`;
+      requestAnimationFrame(() => {
+        qText.style.opacity = '1';
+        qText.style.transform = 'translateY(0)';
+      });
+    }, 350);
+  }
+  showQuote(0);
+
+  document.getElementById('q-next').addEventListener('click', () => {
+    qIdx = (qIdx + 1) % quotes.length; showQuote(qIdx, 1);
+  });
+  document.getElementById('q-prev').addEventListener('click', () => {
+    qIdx = (qIdx - 1 + quotes.length) % quotes.length; showQuote(qIdx, -1);
+  });
+
+  // smooth-scroll for in-page links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) { e.preventDefault(); el.scrollIntoView({behavior:'smooth', block:'start'}); }
+    });
+  });
+</script>
+
+</body>
+</html>
